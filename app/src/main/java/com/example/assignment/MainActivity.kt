@@ -2,6 +2,7 @@ package com.example.assignment
 
 
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -10,6 +11,7 @@ import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -22,7 +24,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private var running = false
     private var totalSteps = 0f
     private var previousTotalSteps = 0f
-
+    var num = 0
+    var startPoint = 0
+    var endPoint = 0
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -32,6 +37,49 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
+        val age1 = findViewById<Button>(R.id.age1)
+        val age2 = findViewById<Button>(R.id.age2)
+        var textView = findViewById<TextView>(R.id.age)
+        age1.setOnClickListener {
+            num--
+            textView.text = num.toString()
+        }
+        age2.setOnClickListener {
+            num++
+            textView.text = num.toString()
+        }
+        val weight1 = findViewById<Button>(R.id.weight1)
+        val weight2 = findViewById<Button>(R.id.weight2)
+        var textView2 = findViewById<TextView>(R.id.weight)
+        weight1.setOnClickListener {
+            num--
+            textView2.text = num.toString()
+        }
+        weight2.setOnClickListener {
+            num++
+            textView2.text = num.toString()
+        }
+
+        val volumeSeekBar = findViewById<SeekBar>(R.id.seek_bar)
+        val volume = findViewById<TextView>(R.id.height_value)
+        volumeSeekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                volume.text = progress.toString()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                if (seekBar != null) {
+                    startPoint = seekBar.progress
+                }
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                if (seekBar != null) {
+                    endPoint = seekBar.progress
+                }
+                Toast.makeText(this@MainActivity, "changed height", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
 
@@ -93,4 +141,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
         TODO("Not yet implemented")
     }
+
+
 }
