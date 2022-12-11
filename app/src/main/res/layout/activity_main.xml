@@ -6,7 +6,7 @@
     android:background="#E1E1E1"
     android:padding="8dp"
     android:layout_height="match_parent"
-    tools:context=".DashboardFragment">
+    tools:context=".MainActivity">
 
     <com.mikhaellopez.circularprogressbar.CircularProgressBar
         android:layout_width="200dp"
